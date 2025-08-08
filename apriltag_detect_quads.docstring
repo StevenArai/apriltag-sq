@@ -1,0 +1,13 @@
+Detects quads in the input image and returns a list of them.
+
+This method is useful for debugging the quad detection process or for applications
+that only require finding rectangular shapes in an image, without decoding them
+as AprilTags.
+
+Args:
+    image (numpy.ndarray): A grayscale image (2D numpy array with dtype=uint8).
+
+Returns:
+    list: A list of numpy arrays. Each element in the list is a 4x2 numpy array
+          representing the four corners of a detected quad in pixel coordinates.
+          The corners are ordered counter-clockwise.

@@ -1,0 +1,25 @@
+# ninja log v5
+1	16	1754648685873721371	apriltag_py_type_docstring.h	31b2ce7dad96f96
+1	16	1754648685869837977	/home/steve/apriltag-sq/build_host/apriltag_detect_docstring.cxx	1ed1c1838cef2849
+1	16	1754648685873721371	apriltag_py_type_docstring.cxx	31b2ce7dad96f96
+1	16	1754648685873721371	/home/steve/apriltag-sq/build_host/apriltag_py_type_docstring.cxx	31b2ce7dad96f96
+1	15	1754652328975154897	/home/steve/apriltag-sq/build_host/apriltag_detect_quads_docstring.cxx	8a0ce684c41c2e30
+1	16	1754648685869837977	/home/steve/apriltag-sq/build_host/apriltag_detect_docstring.h	1ed1c1838cef2849
+1	16	1754648685869837977	apriltag_detect_docstring.cxx	1ed1c1838cef2849
+1	15	1754652328975154897	apriltag_detect_quads_docstring.h	8a0ce684c41c2e30
+1	16	1754648685869837977	apriltag_detect_docstring.h	1ed1c1838cef2849
+1	15	1754652328975154897	apriltag_detect_quads_docstring.cxx	8a0ce684c41c2e30
+1	15	1754652328975154897	/home/steve/apriltag-sq/build_host/apriltag_detect_quads_docstring.h	8a0ce684c41c2e30
+1	16	1754648685873721371	/home/steve/apriltag-sq/build_host/apriltag_py_type_docstring.h	31b2ce7dad96f96
+1	19	1754648685869837977	apriltag_detect_docstring.h	1ed1c1838cef2849
+1	19	1754648685869837977	apriltag_detect_docstring.cxx	1ed1c1838cef2849
+1	19	1754648685869837977	/home/steve/apriltag-sq/build_host/apriltag_detect_docstring.h	1ed1c1838cef2849
+1	19	1754648685869837977	/home/steve/apriltag-sq/build_host/apriltag_detect_docstring.cxx	1ed1c1838cef2849
+2	19	1754652328975154897	apriltag_detect_quads_docstring.h	8a0ce684c41c2e30
+2	19	1754652328975154897	apriltag_detect_quads_docstring.cxx	8a0ce684c41c2e30
+2	19	1754652328975154897	/home/steve/apriltag-sq/build_host/apriltag_detect_quads_docstring.h	8a0ce684c41c2e30
+2	19	1754652328975154897	/home/steve/apriltag-sq/build_host/apriltag_detect_quads_docstring.cxx	8a0ce684c41c2e30
+2	20	1754648685873721371	apriltag_py_type_docstring.h	31b2ce7dad96f96
+2	20	1754648685873721371	apriltag_py_type_docstring.cxx	31b2ce7dad96f96
+2	20	1754648685873721371	/home/steve/apriltag-sq/build_host/apriltag_py_type_docstring.h	31b2ce7dad96f96
+2	20	1754648685873721371	/home/steve/apriltag-sq/build_host/apriltag_py_type_docstring.cxx	31b2ce7dad96f96

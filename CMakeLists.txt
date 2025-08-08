@@ -173,7 +173,7 @@ if(BUILD_PYTHON_WRAPPER AND Python3_Development_FOUND AND Python3_NumPy_FOUND)
 
     include(CMake/vtkEncodeString.cmake)
 
-    foreach(X IN ITEMS detect py_type)
+    foreach(X IN ITEMS detect py_type detect_quads)
         vtk_encode_string(
             INPUT ${CMAKE_CURRENT_SOURCE_DIR}/apriltag_${X}.docstring
             NAME apriltag_${X}_docstring
@@ -182,11 +182,13 @@ if(BUILD_PYTHON_WRAPPER AND Python3_Development_FOUND AND Python3_NumPy_FOUND)
     add_custom_target(apriltag_py_docstrings DEPENDS
         ${PROJECT_BINARY_DIR}/apriltag_detect_docstring.h
         ${PROJECT_BINARY_DIR}/apriltag_py_type_docstring.h
+        ${PROJECT_BINARY_DIR}/apriltag_detect_quads_docstring.h
     )
 
     # set the SOABI manually since renaming the library via OUTPUT_NAME does not work on MSVC
-    set(apriltag_py_target "apriltag.${Python3_SOABI}")
+    set(apriltag_py_target "apriltagsq.${Python3_SOABI}")
     Python3_add_library(${apriltag_py_target} MODULE ${CMAKE_CURRENT_SOURCE_DIR}/apriltag_pywrap.c)
+
     add_dependencies(${apriltag_py_target} apriltag_py_docstrings)
     # avoid linking against Python3::Python to prevent segmentation faults in Conda environments
     # https://github.com/AprilRobotics/apriltag/issues/352

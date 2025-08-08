@@ -336,18 +336,108 @@ static PyObject* apriltag_detect(apriltag_py_t* self,
 }
 
 
+static PyObject* apriltag_detect_quads(apriltag_py_t* self,
+                                 PyObject* args)
+{
+    PyObject*      result      = NULL;
+    PyArrayObject* image       = NULL;
+    PyObject*      quads_list  = NULL;
+
+#ifdef _POSIX_C_SOURCE
+    SET_SIGINT();
+#endif
+    if(!PyArg_ParseTuple( args, "O&",
+                          PyArray_Converter, &image ))
+        goto done;
+
+    npy_intp* dims    = PyArray_DIMS   (image);
+    npy_intp* strides = PyArray_STRIDES(image);
+    int       ndims   = PyArray_NDIM   (image);
+    if( ndims != 2 )
+    {
+        PyErr_Format(PyExc_RuntimeError, "The input image array must have exactly 2 dims; got %d",
+                     ndims);
+        goto done;
+    }
+    if( PyArray_TYPE(image) != NPY_UINT8 )
+    {
+        PyErr_SetString(PyExc_RuntimeError, "The input image array must contain 8-bit unsigned data");
+        goto done;
+    }
+    if( strides[ndims-1] != 1 )
+    {
+        PyErr_SetString(PyExc_RuntimeError, "Image rows must live in contiguous memory");
+        goto done;
+    }
+
+    image_u8_t im = {.width  = dims[1],
+                     .height = dims[0],
+                     .stride = strides[0],
+                     .buf    = PyArray_DATA(image)};
+
+    zarray_t *quads = apriltag_detector_detect_quads(self->td, &im);
+
+    int N = zarray_size(quads);
+    quads_list = PyList_New(N);
+    if(quads_list == NULL)
+    {
+        PyErr_Format(PyExc_RuntimeError, "Error creating output list of size %d", N);
+        goto done;
+    }
+
+    for (int i=0; i < N; i++)
+    {
+        struct quad* q;
+        zarray_get_volatile(quads, i, &q);
+
+        PyArrayObject* corners = (PyArrayObject*)PyArray_SimpleNew(2, ((npy_intp[]){4,2}), NPY_FLOAT64);
+        if(corners == NULL)
+        {
+            PyErr_SetString(PyExc_RuntimeError, "Could not allocate corners array");
+            // PyList_SetItem below will steal a reference, so we need to DECREF on error
+            Py_DECREF(quads_list); 
+            quads_list = NULL;
+            goto done;
+        }
+
+        for(int j=0; j<4; j++)
+        {
+            *(double*)PyArray_GETPTR2(corners, j, 0) = q->p[j][0];
+            *(double*)PyArray_GETPTR2(corners, j, 1) = q->p[j][1];
+        }
+        PyList_SetItem(quads_list, i, (PyObject*)corners);
+    }
+
+    zarray_destroy(quads); // We are responsible for destroying the zarray of quads
+    
+    result = quads_list;
+    quads_list = NULL;
+
+  done:
+    Py_XDECREF(image);
+    Py_XDECREF(quads_list); // Will be NULL if successful
+
+#ifdef _POSIX_C_SOURCE
+    RESET_SIGINT();
+#endif
+    return result;
+}
+
+
 #include "apriltag_detect_docstring.h"
 #include "apriltag_py_type_docstring.h"
+#include "apriltag_detect_quads_docstring.h"
 
 static PyMethodDef apriltag_methods[] =
     { PYMETHODDEF_ENTRY(apriltag_, detect, METH_VARARGS),
+      PYMETHODDEF_ENTRY(apriltag_, detect_quads, METH_VARARGS),
       {NULL, NULL, 0, NULL}
     };
 
 static PyTypeObject apriltagType =
 {
      PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name      = "apriltag",
+    .tp_name      = "apriltagsq",
     .tp_basicsize = sizeof(apriltag_py_t),
     .tp_new       = apriltag_new,
     .tp_dealloc   = (destructor)apriltag_dealloc,
@@ -382,8 +472,8 @@ PyMODINIT_FUNC initapriltag(void)
 static struct PyModuleDef module_def =
     {
      PyModuleDef_HEAD_INIT,
-     "apriltag",
-     "AprilTags visual fiducial system detector",
+     "apriltagsq",
+     "Trying to extract square detection out of aprilTag3",
      -1,
      methods,
     0,
@@ -392,7 +482,7 @@ static struct PyModuleDef module_def =
     0
     };
 
-PyMODINIT_FUNC PyInit_apriltag(void)
+PyMODINIT_FUNC PyInit_apriltagsq(void)
 {
     if (PyType_Ready(&apriltagType) < 0)
         return NULL;
@@ -401,7 +491,7 @@ PyMODINIT_FUNC PyInit_apriltag(void)
         PyModule_Create(&module_def);
 
     Py_INCREF(&apriltagType);
-    PyModule_AddObject(module, "apriltag", (PyObject *)&apriltagType);
+    PyModule_AddObject(module, "apriltagsq", (PyObject *)&apriltagType);
 
     import_array();
 

@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: apriltag-sq
+Version: 114.514.1919.810
+Summary: Apriltag with square detection exposed.
+License-File: LICENSE.md
+Requires-Dist: numpy
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary

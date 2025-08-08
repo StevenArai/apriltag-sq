@@ -1,0 +1,10 @@
+/home/steve/apriltag-sq/build_host/CMakeFiles/apriltag.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/apriltag_py_docstrings.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/apriltagsq..dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/apriltag_demo.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/edit_cache.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/rebuild_cache.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/list_install_components.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/install.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/install/local.dir
+/home/steve/apriltag-sq/build_host/CMakeFiles/install/strip.dir
